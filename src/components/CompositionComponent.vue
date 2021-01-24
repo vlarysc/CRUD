@@ -14,14 +14,19 @@
 
 <script lang="ts">
 import {
-  defineComponent, PropType, computed, ref, toRef, Ref,
+  defineComponent,
+  PropType,
+  computed,
+  ref,
+  toRef,
+  Ref
 } from '@vue/composition-api';
 import { Todo, Meta } from './models';
 
 function useClickCount() {
   const clickCount = ref(0);
   function increment() {
-    clickCount.value += 1
+    clickCount.value += 1;
     return clickCount.value;
   }
 
@@ -54,6 +59,6 @@ export default defineComponent({
   },
   setup(props) {
     return { ...useClickCount(), ...useDisplayTodo(toRef(props, 'todos')) };
-  },
+  }
 });
 </script>

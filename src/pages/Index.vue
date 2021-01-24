@@ -1,63 +1,150 @@
 <template>
   <q-page class="container">
-    <q-page class="q-pa-md">
+    <q-page class="">
+      <div class="row">
+        <q-form @submit="cadastrado" @reset="resetar" class=""> </q-form>
+      </div>
       <div class="q-pa-md">
-        <q-form
-          @submit="cadastrado"
-          @reset="resetar"
-          class="q-gutter-md column items-start"
-        >
-          <q-toggle v-model="accept" label="PJ" />
-
-          <q-input filled v-model="name" label="Nome" />
-          <q-input filled v-model="nickName" label="Sobrenome" />
-
-          <q-input
-            class="senha"
-            filled
-            v-model="password"
-            :type="isPwd ? 'password' : 'text'"
-            label="Senha"
-          >
-            <template v-slot:append>
-              <q-icon
-                :name="isPwd ? 'visibility_off' : 'visibility'"
-                class="cursor-pointer"
-                @click="isPwd = !isPwd"
-              />
-            </template>
-          </q-input>
-
-          <q-input
-            class="e-mail"
-            filled
-            v-model="email"
-            type="email"
-            label="Email"
-          />
-
-          <q-input
-            v-model.number="tel1"
-            filled
-            type="tel"
-            label="Telefone 1"
-            :rules="[myRule]"
-          />
-          <q-input v-model.number="tel2" filled type="tel" label="Telefone 2" />
-          <q-input v-model.number="tel3" filled type="tel" label="Telefone 3" />
-
-          <q-input v-model="date" filled type="date" />
-
-          <div class="col-12">
-            <q-btn
-              color="amber"
-              type="reset"
-              glossy
-              label="Cadastrar"
-              class="float-right"
+        <div class="row">
+          <div class="col-4">
+            <q-input filled v-model="form.name" label="Nome" />
+          </div>
+          <div class="col-4">
+            <q-input filled v-model="form.nickName" label="Sobrenome" />
+          </div>
+          <div class="col-4">
+            <q-input
+              class="e-mail"
+              filled
+              v-model="form.email"
+              type="email"
+              label="Email"
             />
           </div>
-        </q-form>
+        </div>
+        <div class="row">
+          <div class="col-4">
+            <q-input filled v-model="form.documento1" label="CPF ou CNPJ" />
+          </div>
+          <div class="col-4">
+            <q-input filled v-model="form.documento2" label="RG ou IE" />
+          </div>
+          <div class="col-4">
+            <q-input filled v-model="form.documento3" label="IM" />
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-4">
+            <q-input
+              v-model.number="form.telefone1"
+              filled
+              type="tel"
+              label="Telefone 1"
+              :rules="[myRule]"
+            />
+          </div>
+          <div class="col-4">
+            <q-input
+              v-model.number="form.telefone2"
+              filled
+              type="tel"
+              label="Telefone 2"
+            />
+          </div>
+          <div class="col-4">
+            <q-input
+              v-model.number="form.telefone3"
+              filled
+              type="tel"
+              label="Telefone 3"
+            />
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-4">
+            <q-input
+              v-model="form.cep"
+              @blur="buscaCep"
+              filled
+              type="tel"
+              label="CEP"
+            />
+          </div>
+          <div class="col-4">
+            <q-input
+              v-model.number="form.cidade"
+              filled
+              type="tel"
+              label="Cidade"
+            />
+          </div>
+          <div class="col-4">
+            <q-input
+              v-model.number="form.bairro"
+              filled
+              type="tel"
+              label="Bairro"
+            />
+          </div>
+          <div class="col-4">
+            <q-input
+              v-model.number="form.logradouro"
+              filled
+              type="tel"
+              label="Rua"
+            />
+          </div>
+          <div class="col-4">
+            <q-input
+              v-model.number="form.complemento"
+              filled
+              type="tel"
+              label="Complemento"
+            />
+          </div>
+          <div class="col-4">
+            <q-input v-model="form.uf" filled type="tel" label="UF" />
+            <select name="uf" v-model="form.uf">
+              <option value="AC">Acre</option>
+              <option value="AL">Alagoas</option>
+              <option value="AP">Amapá</option>
+              <option value="AM">Amazonas</option>
+              <option value="BA">Bahia</option>
+              <option value="CE">Ceará</option>
+              <option value="DF">Distrito Federal</option>
+              <option value="ES">Espírito Santo</option>
+              <option value="GO">Goiás</option>
+              <option value="MA">Maranhão</option>
+              <option value="MT">Mato Grosso</option>
+              <option value="MS">Mato Grosso do Sul</option>
+              <option value="MG">Minas Gerais</option>
+              <option value="PA">Pará</option>
+              <option value="PB">Paraíba</option>
+              <option value="PR">Paraná</option>
+              <option value="PE">Pernambuco</option>
+              <option value="PI">Piauí</option>
+              <option value="RJ">Rio de Janeiro</option>
+              <option value="RN">Rio Grande do Norte</option>
+              <option value="RS">Rio Grande do Sul</option>
+              <option value="RO">Rondônia</option>
+              <option value="RR">Roraima</option>
+              <option value="SC">Santa Catarina</option>
+              <option value="SP">São Paulo</option>
+              <option value="SE">Sergipe</option>
+              <option value="TO">Tocantins</option>
+            </select>
+          </div>
+        </div>
+      </div>
+      <div class="col">
+        <q-btn
+          color="amber"
+          type="reset"
+          glossy
+          label="Cadastrar"
+          class="float-right"
+        />
       </div>
     </q-page>
 
@@ -66,56 +153,72 @@
 </template>
 
 <script>
+import axios from 'axios';
+
 export default {
   name: 'PageIndex',
+  props: {
+    pessoa: {
+      nome: 'string',
+      nickName: 'string',
+      email: 'string', //com validacao de formato de email
+      tipoPessoa: 'string', //(PF,PJ)
+      documento1: 'string', //campo unico
+      documento2: 'string',
+      documento3: 'string',
+      telefone1: 'string', // campo obrigatorio
+      telefone2: 'string',
+      telefone3: 'string',
+      enderecos: [
+        {
+          cep: 'string',
+          logradouro: 'string',
+          complemento: 'string',
+          bairro: 'string',
+          cidade: 'string',
+          uf: 'string'
+        }
+      ]
+    }
+  },
   data() {
     return {
-      pessoa: {
-        id: 0,
-        nome: 'string',
-        nickName: 'string',
-        email: 'string', //com validacao de formato de email
-        tipoPessoa: 'PF', //(PF,PJ)
-        documento1: 'string', //campo unico
-        documento2: 'string',
-        documento3: 'string',
-        telefone1: 'string', // campo obrigatorio
-        telefone2: 'string',
-        telefone3: 'string',
-        enderecos: [
-          {
-            id: 0,
-            cep: 'string',
-            lagradouro: 'string',
-            complemento: 'string',
-            bairro: 'string',
-            cidade: 'string',
-            uf: 'string',
-            lat: 0,
-            lon: 0
-          }
-        ]
-      },
-
       leftDrawerOpen: false,
-      isPwd: true,
       cadastrado: false,
       form: {
-        password: '',
+        documento1: '',
+        documento2: '',
+        documento3: '',
+        telefone1: '',
+        telefone2: '',
+        telefone3: '',
         email: '',
-        tel1: '',
-        tel2: '',
-        tel3: '',
         date: '',
         text: '',
         model: '',
         name: '',
         nickName: '',
-        accept: false
+        enderecos: []
       }
     };
   },
+
   methods: {
+    buscaCep() {
+      resultado = axios
+        .get(`http://viacep.com.br/ws/${this.form.cep}/json/`)
+        .then(res => res)
+        .catch(error => error);
+      this.resultado.data.ce = cep;
+
+      this.resultado.data.longadouro = longadouro;
+      this.resultado.data.complemento = complemento;
+      this.resultado.data.bairro = bairro;
+      this.resultado.data.cidade = cidade;
+      this.resultado.data.uf = uf;
+
+      this.form.enderecos.push(this.enderecos);
+    },
     myRule(val) {
       return new Promise((resolve, reject) => {
         setTimeout(() => {
@@ -129,17 +232,22 @@ export default {
     },
     resetar() {
       (this.form = {
+        documento1: '',
+        documento2: '',
+        documento3: '',
+        telefone1: '',
+        telefone2: '',
+        telefone3: '',
         password: '',
         email: '',
-        tel1: '',
-        tel2: '',
-        tel3: '',
-        date: '',
-        text: '',
-        model: '',
         name: '',
         nickName: '',
-        accept: false
+        cep: '',
+        logradouro: '',
+        complemento: '',
+        bairro: '',
+        cidade: '',
+        uf: ''
       }),
         this.$q.notify({
           color: 'green-4',
@@ -152,11 +260,11 @@ export default {
 };
 </script>
 
-<style>
-.senha {
-  width: 185px;
-}
-.e-mail {
-  width: 185px;
-}
+<style lang="sass" scoped>
+.row > div
+  padding: 10px 15px
+  background: rgba(86,61,124,.15)
+  border: 1px solid rgba(86,61,124,.2)
+.row + .row
+  margin-top: 1rem
 </style>
