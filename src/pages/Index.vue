@@ -1,6 +1,6 @@
 <template>
   <div class="q-pa-md">
-    <q-table title="Treats" :data="pessoas" :columns="columns" row-key="id">
+    <q-table title="Pessoas" :data="pessoas" :columns="columns" row-key="id">
       <template v-slot:body-cell-option="props">
         <q-td :props="props">
           <div class="q-pa-md q-gutter-sm">
@@ -22,159 +22,155 @@
       </template>
     </q-table>
     <div class="q-pa-md q-gutter-xl">
-      <q-btn label="Adicionar" color="positive" @click="createPessoa" />
+      <q-btn label="Adicionar" color="indigo-7" @click="createPessoa" />
 
       <q-dialog v-model="layout" full-width>
-        <q-layout view="Lhh lpR fff" container class="bg-white">
-          <q-btn flat v-close-popup round dense icon="close" />
+        <q-layout view="Lhh lpR fff" class="bg-white">
+          <q-page>
+            <div class="container-contact3">
+              <div class="wrap-contact3">
+                <form class="contact3-form validate-form">
+                  <span class="contact3-form-title"> </span>
 
-
-            <q-page>
-              <div class="container-contact3">
-                <div class="wrap-contact3">
-                  <form class="contact3-form validate-form">
-                    <span class="contact3-form-title"> </span>
-
-                    <div class="wrap-contact3-form-radio">
-                      <div
-                        class="contact3-form-radio m-r-42"
-                        style="margin: 10px;"
-                      >
-                        <input
-                          v-model="pessoa.tipoPessoa"
-                          class="input-radio3"
-                          id="radio1"
-                          type="radio"
-                          name="choice"
-                          value="PF"
-                          checked="checked"
-                        />
-                        <label class="label-radio3" for="radio1">
-                          Pessoa Física
-                        </label>
-                      </div>
-
-                      <div class="contact3-form-radio" style="margin: 10px;">
-                        <input
-                          v-model="pessoa.tipoPessoa"
-                          class="input-radio3"
-                          id="radio2"
-                          type="radio"
-                          name="choice"
-                          value="PJ"
-                        />
-                        <label class="label-radio3" for="radio2">
-                          Pessoa Jurídica
-                        </label>
-                      </div>
-                    </div>
-
+                  <div class="wrap-contact3-form-radio">
                     <div
-                      class="wrap-input3 validate-input"
-                      data-validate="Name is required"
+                      class="contact3-form-radio m-r-42"
+                      style="margin: 2px;"
                     >
                       <input
-                        class="input3"
-                        type="text"
-                        name="name"
-                        v-model="pessoa.name"
-                        placeholder="Nome"
+                        v-model="pessoa.tipoPessoa"
+                        class="input-radio3"
+                        id="radio1"
+                        type="radio"
+                        name="choice"
+                        value="PF"
+                        checked="checked"
                       />
-                      <span class="focus-input3"></span>
+                      <label class="label-radio3" for="radio1">
+                        Pessoa Física
+                      </label>
                     </div>
 
-                    <div
-                      class="wrap-input3 validate-input"
-                      data-validate="Name is required"
-                    >
+                    <div class="contact3-form-radio" style="margin: 2px;">
                       <input
-                        class="input3"
-                        type="text"
-                        v-model="pessoa.nickName"
-                        name="nickName"
-                        placeholder="Apelido"
+                        v-model="pessoa.tipoPessoa"
+                        class="input-radio3"
+                        id="radio2"
+                        type="radio"
+                        name="choice"
+                        value="PJ"
                       />
-                      <span class="focus-input3"></span>
+                      <label class="label-radio3" for="radio2">
+                        Pessoa Jurídica
+                      </label>
                     </div>
+                  </div>
 
-                    <div
-                      class="wrap-input3 validate-input"
-                      data-validate="Valid email is required: ex@abc.xyz"
+                  <div
+                    class="wrap-input3 validate-input"
+                    data-validate="Name is required"
+                  >
+                    <input
+                      class="input3"
+                      type="text"
+                      name="name"
+                      v-model="pessoa.name"
+                      placeholder="Nome"
+                    />
+                    <span class="focus-input3"></span>
+                  </div>
+
+                  <div
+                    class="wrap-input3 validate-input"
+                    data-validate="Name is required"
+                  >
+                    <input
+                      class="input3"
+                      type="text"
+                      v-model="pessoa.nickName"
+                      name="nickName"
+                      placeholder="Apelido"
+                    />
+                    <span class="focus-input3"></span>
+                  </div>
+
+                  <div
+                    class="wrap-input3 validate-input"
+                    data-validate="Valid email is required: ex@abc.xyz"
+                  >
+                    <input
+                      class="input3"
+                      type="text"
+                      v-model="pessoa.email"
+                      name="email"
+                      placeholder="E-mail"
+                    />
+                    <span class="focus-input3"></span>
+                  </div>
+
+                  <div
+                    class="wrap-input3 validate-input"
+                    data-validate="name is required"
+                  >
+                    <input
+                      class="input3"
+                      type="text"
+                      v-model="pessoa.telefone1"
+                      name="telefone1"
+                      placeholder="Telefone"
+                    />
+                    <span class="focus-input3"></span>
+                  </div>
+
+                  <div
+                    class="wrap-input3 validate-input"
+                    data-validate="name is required"
+                  >
+                    <input
+                      class="input3"
+                      type="cpf"
+                      v-model="pessoa.documento1"
+                      name="documento1"
+                      placeholder="CPF ou CNPJ"
+                    />
+                    <span class="focus-input3"></span>
+                  </div>
+
+                  <div
+                    class="wrap-input3 validate-input"
+                    data-validate="name is required"
+                  >
+                    <input
+                      class="input3"
+                      type="date"
+                      v-model="pessoa.nascimento"
+                      name="nascimento"
+                    />
+                    <span class="focus-input3"></span>
+                  </div>
+
+                  <div class="container-contact3-form-btn">
+                    <q-btn
+                      v-if="!isEdit"
+                      round
+                      @click.prevent="salvar(pessoa)"
+                      class="contact3-form-btn"
                     >
-                      <input
-                        class="input3"
-                        type="text"
-                        v-model="pessoa.email"
-                        name="email"
-                        placeholder="E-mail"
-                      />
-                      <span class="focus-input3"></span>
-                    </div>
-
-                    <div
-                      class="wrap-input3 validate-input"
-                      data-validate="name is required"
+                      Adicionar Contato
+                    </q-btn>
+                    <q-btn
+                      v-if="isEdit"
+                      round
+                      @click.prevent="updat(pessoa.documento1)"
+                      class="contact3-form-btn"
                     >
-                      <input
-                        class="input3"
-                        type="text"
-                        v-model="pessoa.telefone1"
-                        name="telefone1"
-                        placeholder="Telefone"
-                      />
-                      <span class="focus-input3"></span>
-                    </div>
-
-                    <div
-                      class="wrap-input3 validate-input"
-                      data-validate="name is required"
-                    >
-                      <input
-                        class="input3"
-                        type="cpf"
-                        v-model="pessoa.documento1"
-                        name="documento1"
-                        placeholder="CPF ou CNPJ"
-                      />
-                      <span class="focus-input3"></span>
-                    </div>
-
-                    <div
-                      class="wrap-input3 validate-input"
-                      data-validate="name is required"
-                    >
-                      <input
-                        class="input3"
-                        type="date"
-                        v-model="pessoa.nascimento"
-                        name="nascimento"
-                      />
-                      <span class="focus-input3"></span>
-                    </div>
-
-                    <div class="container-contact3-form-btn">
-                      <q-btn
-                        v-if="!isEdit"
-                        round
-                        @click.prevent="salvar(pessoa)"
-                        class="contact3-form-btn"
-                      >
-                        Adicionar Contato
-                      </q-btn>
-                      <q-btn
-                        v-if="isEdit"
-                        round
-                        @click.prevent="updat(pessoa.documento1)"
-                        class="contact3-form-btn"
-                      >
-                        Atualizar Contato
-                      </q-btn>
-                    </div>
-                  </form>
-                </div>
+                      Atualizar Contato
+                    </q-btn>
+                  </div>
+                </form>
               </div>
-            </q-page>
-          </q-page-container>
+            </div>
+          </q-page>
         </q-layout>
       </q-dialog>
     </div>
@@ -480,7 +476,6 @@ iframe {
 /*//////////////////////////////////////////////////////////////////
 [ Contact 2 ]*/
 .bg-contact3 {
-  width: 100%;
   background-repeat: no-repeat;
   background-position: center center;
   background-size: cover;
@@ -497,22 +492,16 @@ iframe {
   flex-wrap: wrap;
   justify-content: center;
   align-items: center;
-  padding: 1px;
-  background: #80c64a;
-  
+  background: #2945c4;
 }
 
 .wrap-contact3 {
   width: 100%;
-  background: #80c64a;
-  background: -webkit-linear-gradient(45deg, #56ab2f, #a8e063);
-  background: -o-linear-gradient(45deg, #56ab2f, #a8e063);
-  background: -moz-linear-gradient(45deg, #56ab2f, #a8e063);
-  background: linear-gradient(45deg, #56ab2f, #a8e063);
-  border-radius: 10px;
-  overflow: hidden;
-  padding-bottom: 10px;
-  
+  background: #2945c4;
+  background: -webkit-linear-gradient(45deg, #2945c4, #636fe0);
+  background: -o-linear-gradient(45deg, #2945c4, #636fe0);
+  background: -moz-linear-gradient(45deg, #2945c4, #636fe0);
+  background: linear-gradient(45deg, #2945c4, #636fe0);
 }
 
 /*------------------------------------------------------------------
@@ -530,8 +519,6 @@ iframe {
   line-height: 1.2;
   text-align: center;
   text-transform: uppercase;
-  padding-bottom: 70px;
-
 }
 
 /*------------------------------------------------------------------
@@ -549,7 +536,7 @@ iframe {
   width: 100%;
   background: transparent;
   font-family: Poppins-Regular;
-  font-size: 15px;
+  font-size: 18px;
   color: #fff;
   line-height: 1.2;
   padding: 0 5px;
@@ -604,36 +591,29 @@ textarea.input3 {
 /*------------------------------------------------------------------
 [  ]*/
 .container-contact3-form-btn {
-
 }
 
 .contact3-form-btn {
   font-family: Poppins-Medium;
-margin-left: 10px;
+  margin-left: 10px;
   color: #555555;
   line-height: 1.2;
   text-transform: uppercase;
-
 
   display: -webkit-box;
   display: -webkit-flex;
   display: -moz-box;
   display: -ms-flexbox;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 10 15px;
-  margin-bottom: 10px;
-  min-width: 120px;
-  height: 50px;
+
   border-radius: 2px;
   position: relative;
   z-index: 1;
-  background: #80c64a;
-  background: -webkit-linear-gradient(-135deg, #56ab2f, #a8e063);
-  background: -o-linear-gradient(-135deg, #56ab2f, #a8e063);
-  background: -moz-linear-gradient(-135deg, #56ab2f, #a8e063);
-  background: linear-gradient(-135deg, #56ab2f, #a8e063);
+  background: #211994;
+  background: #2945c4;
+  background: -webkit-linear-gradient(45deg, #2945c4, #636fe0);
+  background: -o-linear-gradient(45deg, #2945c4, #636fe0);
+  background: -moz-linear-gradient(45deg, #2945c4, #636fe0);
+  background: linear-gradient(45deg, #2945c4, #636fe0);
 
   -webkit-transition: all 0.4s;
   -o-transition: all 0.4s;
