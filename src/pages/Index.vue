@@ -22,7 +22,13 @@
       </template>
     </q-table>
     <div class="q-pa-md q-gutter-xl">
-      <q-btn label="Adicionar" color="indigo-7" @click="createPessoa" />
+      <q-btn
+        label="Adicionar"
+        to="/cadastro"
+        no-caps
+        color="indigo-7"
+        @click="createPessoa"
+      />
 
       <q-dialog v-model="layout" full-width>
         <q-layout view="Lhh lpR fff" class="bg-white">
@@ -179,6 +185,7 @@
 
 <script>
 import { LocalStorage } from 'quasar';
+import Cadastro from '../components/Cadastro.vue';
 
 export default {
   name: 'PageIndex',
