@@ -7,11 +7,7 @@
     >
       <q-toolbar>
         <q-btn flat to="/" class="q-ml-xs">
-          <img
-            style="height: 50px; max-width: 300px"
-            src="https://nurap.org.br/wp-content/uploads/2018/08/Logo_Construindo-Futuro_OFICIAL_Esta%CC%81gio-1-300x138.png"
-            size="1px"
-          />
+          <img style="height: 50px; max-width: 300px" src="" size="1px" />
         </q-btn>
 
         <q-space />
