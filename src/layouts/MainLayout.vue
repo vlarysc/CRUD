@@ -1,12 +1,13 @@
 <template>
-  <q-layout view="hHh lpR fFf" class="bg-grey-1">
-    <q-header elevated class="bg-white text-grey-8 q-py-xs" height-hint="58">
+  <q-layout view="hHh lpR fFf" class="bg-grey-14">
+    <q-header elevated class="bg-yellow-7 text-grey-8 q-py-xs" height-hint="58">
       <q-toolbar>
-        <q-btn flat no-caps no-wrap class="q-ml-xs" v-if="$q.screen.gt.xs">
-          <q-icon :name="Youtube" color="yellow" size="28px" />
-          <q-toolbar-title shrink class="text-weight-bold text-indigo-7">
-            Meu Plano
-          </q-toolbar-title>
+        <q-btn flat to="/" class="q-ml-xs">
+          <img
+            style="height: 50px; max-width: 300px"
+            src="https://nurap.org.br/wp-content/uploads/2018/08/Logo_Construindo-Futuro_OFICIAL_Esta%CC%81gio-1-300x138.png"
+            size="1px"
+          />
         </q-btn>
 
         <q-space />
@@ -48,7 +49,7 @@
       v-model="leftDrawerOpen"
       show-if-above
       bordered
-      content-class="bg-indigo-10"
+      content-class="bg-grey-14"
       :width="240"
     >
       <q-scroll-area class="fit">
@@ -62,7 +63,7 @@
 
           <q-item
             v-for="link in links1"
-            class="text-grey"
+            class="text-white"
             :key="link.text"
             v-ripple
             clickable
@@ -79,7 +80,7 @@
 
           <q-item
             v-for="link in links2"
-            class="text-grey"
+            class="text-white"
             :key="link.text"
             v-ripple
             clickable
@@ -142,6 +143,9 @@ export default {
   name: 'MyLayout',
   data() {
     return {
+      buttons2: '',
+      buttons1: '',
+      Youtube: '',
       leftDrawerOpen: false,
       search: '',
       links1: [
@@ -177,8 +181,10 @@ export default {
 
 <style lang="sass">
 .YL
+  &__img
+  size: 888px
   &__toolbar-input-container
-    min-width: 100px
+    min-width: 300px
     width: 55%
   &__toolbar-input-btn
     border-radius: 0

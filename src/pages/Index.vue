@@ -1,17 +1,23 @@
 <template>
   <div class="q-pa-md">
-    <q-table title="Pessoas" :data="pessoas" :columns="columns" row-key="id">
+    <q-table
+      dense
+      title="Pessoas"
+      :data="pessoas"
+      :columns="columns"
+      row-key="id"
+    >
       <template v-slot:body-cell-option="props">
         <q-td :props="props">
-          <div class="q-pa-md q-gutter-sm">
+          <div class="q-pa-sm q-gutter-sm">
             <q-btn
-              round
+              size="sm"
               color="info"
-              @click="updatePessoa(props.row)"
+              @click="update(props.row)"
               icon="create"
             />
             <q-btn
-              round
+              size="sm"
               color="red"
               @click="remove(props.row.id)"
               text-color="white"
@@ -22,13 +28,7 @@
       </template>
     </q-table>
     <div class="q-pa-md q-gutter-xl">
-      <q-btn
-        label="Adicionar"
-        to="/cadastro"
-        no-caps
-        color="indigo-7"
-        @click="createPessoa"
-      />
+      <q-btn label="Adicionar" to="/cadastro/new" no-caps color="purple-14" />
 
       <q-dialog v-model="layout" full-width>
         <q-layout view="Lhh lpR fff" class="bg-white">
@@ -218,22 +218,8 @@ export default {
         nascimento: ''
       };
     },
-    updat(pessoa) {
-      let datas = this.pessoas.map(pessoaMap => {
-        if (pessoaMap.documento1 == pessoa.documento1) {
-          return pessoa;
-        } else {
-          return pessoaMap;
-        }
-      });
-
-      this.pessoas = datas;
-      this.isEdit = false;
-
-      localStorage.setItem('datasApp', JSON.stringify(datas));
-
-      this.pessoa = this.novaPessoa();
-      this.layout = false;
+    update(pessoa) {
+      this.$router.push('cadastro/' + pessoa.id);
     },
     remove(pessoaId) {
       let datas = localStorage.getItem('datasApp');
