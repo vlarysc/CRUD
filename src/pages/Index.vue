@@ -12,7 +12,7 @@
           <div class="q-pa-sm q-gutter-sm">
             <q-btn
               size="sm"
-              color="info"
+              color="yellow-14"
               @click="update(props.row)"
               icon="create"
             />
@@ -28,7 +28,13 @@
       </template>
     </q-table>
     <div class="q-pa-md q-gutter-xl">
-      <q-btn label="Adicionar" to="/cadastro/new" no-caps color="purple-14" />
+      <q-btn
+        label="Adicionar"
+        to="/cadastro/new"
+        no-caps
+        color="yellow-14"
+        class="text-black"
+      />
 
       <q-dialog v-model="layout" full-width>
         <q-layout view="Lhh lpR fff" class="bg-white">

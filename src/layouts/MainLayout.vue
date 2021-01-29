@@ -1,6 +1,10 @@
 <template>
-  <q-layout view="hHh lpR fFf" class="bg-grey-14">
-    <q-header elevated class="bg-yellow-7 text-grey-8 q-py-xs" height-hint="58">
+  <q-layout view="hHh lpR fFf" class="bg-dark">
+    <q-header
+      elevated
+      class="bg-yellow-14 text-grey-8 q-py-xs"
+      height-hint="58"
+    >
       <q-toolbar>
         <q-btn flat to="/" class="q-ml-xs">
           <img
@@ -49,7 +53,7 @@
       v-model="leftDrawerOpen"
       show-if-above
       bordered
-      content-class="bg-grey-14"
+      content-class="bg-dark"
       :width="240"
     >
       <q-scroll-area class="fit">
