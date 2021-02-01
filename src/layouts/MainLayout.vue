@@ -1,13 +1,17 @@
 <template>
-  <q-layout view="hHh lpR fFf" class="bg-dark">
+  <q-layout view="hHh lpR fFf" class="bg-grey-4">
     <q-header
       elevated
-      class="bg-yellow-14 text-grey-8 q-py-xs"
+      class="bg-blue-grey-4 text-grey-8 q-py-xs"
       height-hint="58"
     >
       <q-toolbar>
         <q-btn flat to="/" class="q-ml-xs">
-          <img style="height: 50px; max-width: 300px" src="" size="1px" />
+          <img
+            style="height: 50px; max-width: 300px"
+            src="https://github.com/vlarysc/CRUD/blob/main/src/assets/Logo.png?raw=true"
+            size="1px"
+          />
         </q-btn>
 
         <q-space />
@@ -49,7 +53,7 @@
       v-model="leftDrawerOpen"
       show-if-above
       bordered
-      content-class="bg-dark"
+      content-class="bg-blue-grey-6"
       :width="240"
     >
       <q-scroll-area class="fit">

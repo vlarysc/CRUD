@@ -12,7 +12,7 @@
           <div class="q-pa-sm q-gutter-sm">
             <q-btn
               size="sm"
-              color="yellow-14"
+              color="yellow-9"
               @click="update(props.row)"
               icon="create"
             />
@@ -32,159 +32,89 @@
         label="Adicionar"
         to="/cadastro/new"
         no-caps
-        color="yellow-14"
+        color="yellow-9"
         class="text-black"
       />
 
-      <q-dialog v-model="layout" full-width>
-        <q-layout view="Lhh lpR fff" class="bg-white">
-          <q-page>
-            <div class="container-contact3">
-              <div class="wrap-contact3">
-                <form class="contact3-form validate-form">
-                  <span class="contact3-form-title"> </span>
+      <div class="q-pa-md q-gutter-sm">
+        <q-btn
+          label="Adicionar"
+          color="yellow-9"
+          class="text-black"
+          @click="medium = true"
+        />
+        <q-form>
+          <q-dialog v-model="medium">
+            <q-card style="width: 300px; ">
+              <q-card-section> </q-card-section>
+              <template>
+                <div class="q-pa-md" style="max-width: 300px">
+                  <div class="q-gutter-md">
+                    <q-badge color="yellow-9" text-color="black" multi-line>
+                      Tipo: "{{ pessoa.tipoPessoa }}"
+                    </q-badge>
 
-                  <div class="wrap-contact3-form-radio">
-                    <div
-                      class="contact3-form-radio m-r-42"
-                      style="margin: 2px;"
+                    <q-select
+                      filled
+                      v-model="pessoa.tipoPessoa"
+                      :options="options"
+                      label="Tipo"
+                      emit-value
+                      map-options
                     >
-                      <input
-                        v-model="pessoa.tipoPessoa"
-                        class="input-radio3"
-                        id="radio1"
-                        type="radio"
-                        name="choice"
-                        value="PF"
-                        checked="checked"
-                      />
-                      <label class="label-radio3" for="radio1">
-                        Pessoa Física
-                      </label>
-                    </div>
-
-                    <div class="contact3-form-radio" style="margin: 2px;">
-                      <input
-                        v-model="pessoa.tipoPessoa"
-                        class="input-radio3"
-                        id="radio2"
-                        type="radio"
-                        name="choice"
-                        value="PJ"
-                      />
-                      <label class="label-radio3" for="radio2">
-                        Pessoa Jurídica
-                      </label>
-                    </div>
+                    </q-select>
                   </div>
+                </div>
+              </template>
 
-                  <div
-                    class="wrap-input3 validate-input"
-                    data-validate="Name is required"
-                  >
-                    <input
-                      class="input3"
-                      type="text"
-                      name="name"
-                      v-model="pessoa.name"
-                      placeholder="Nome"
-                    />
-                    <span class="focus-input3"></span>
-                  </div>
+              <q-div v-if="(PF = true)" v-model="PF" class="q-pt-none">
+                <q-input
+                  dense
+                  outlined
+                  v-model="pessoa.documento1"
+                  square
+                  :options="options"
+                  mask="###.###.###-##"
+                  unmasked-value
+                  placeholder="Pesquisar CPF"
+                  class="bg-white col"
+                  :rules="[
+                    val =>
+                      val.length > 0 || val.length < 14 || 'Campo Obrigatório'
+                  ]"
+                />
+              </q-div>
+              <q-div v-else-if="(PJ = false)" v-model="PJ" class="q-pt-none">
+                <q-input
+                  dense
+                  outlined
+                  v-model="pessoa.documento1"
+                  square
+                  :options="options"
+                  mask="##.###.###/####-##"
+                  unmasked-value
+                  placeholder="Pesquisar CPNJ"
+                  class="bg-white col"
+                  :rules="[
+                    val =>
+                      val.length > 0 || val.length < 18 || 'Campo Obrigatório'
+                  ]"
+                />
+              </q-div>
 
-                  <div
-                    class="wrap-input3 validate-input"
-                    data-validate="Name is required"
-                  >
-                    <input
-                      class="input3"
-                      type="text"
-                      v-model="pessoa.nickName"
-                      name="nickName"
-                      placeholder="Apelido"
-                    />
-                    <span class="focus-input3"></span>
-                  </div>
-
-                  <div
-                    class="wrap-input3 validate-input"
-                    data-validate="Valid email is required: ex@abc.xyz"
-                  >
-                    <input
-                      class="input3"
-                      type="text"
-                      v-model="pessoa.email"
-                      name="email"
-                      placeholder="E-mail"
-                    />
-                    <span class="focus-input3"></span>
-                  </div>
-
-                  <div
-                    class="wrap-input3 validate-input"
-                    data-validate="name is required"
-                  >
-                    <input
-                      class="input3"
-                      type="text"
-                      v-model="pessoa.telefone1"
-                      name="telefone1"
-                      placeholder="Telefone"
-                    />
-                    <span class="focus-input3"></span>
-                  </div>
-
-                  <div
-                    class="wrap-input3 validate-input"
-                    data-validate="name is required"
-                  >
-                    <input
-                      class="input3"
-                      type="cpf"
-                      v-model="pessoa.documento1"
-                      name="documento1"
-                      placeholder="CPF ou CNPJ"
-                    />
-                    <span class="focus-input3"></span>
-                  </div>
-
-                  <div
-                    class="wrap-input3 validate-input"
-                    data-validate="name is required"
-                  >
-                    <input
-                      class="input3"
-                      type="date"
-                      v-model="pessoa.nascimento"
-                      name="nascimento"
-                    />
-                    <span class="focus-input3"></span>
-                  </div>
-
-                  <div class="container-contact3-form-btn">
-                    <q-btn
-                      v-if="!isEdit"
-                      round
-                      @click.prevent="salvar(pessoa)"
-                      class="contact3-form-btn"
-                    >
-                      Adicionar Contato
-                    </q-btn>
-                    <q-btn
-                      v-if="isEdit"
-                      round
-                      @click.prevent="updat(pessoa.documento1)"
-                      class="contact3-form-btn"
-                    >
-                      Atualizar Contato
-                    </q-btn>
-                  </div>
-                </form>
-              </div>
-            </div>
-          </q-page>
-        </q-layout>
-      </q-dialog>
+              <q-card-actions align="right" class="bg-white text-teal">
+                <q-btn
+                  type="submit"
+                  flat
+                  label="Consultar"
+                  v-close-popup
+                  @click.prevent="search(pessoa)"
+                />
+              </q-card-actions>
+            </q-card>
+          </q-dialog>
+        </q-form>
+      </div>
     </div>
   </div>
 </template>
@@ -203,15 +133,22 @@ export default {
     } else this.pessoas = [];
   },
   methods: {
+    search(pessoa) {
+      this.$router.push('cadastro/' + this.pessoa.documento1);
+      if (this.pessoa.documento1.length == 11) {
+        this.pessoa.tipoPessoa = 'PF';
+      } else {
+        this.pessoa.tipoPessoa = 'PJ';
+      }
+      console.log(pessoa);
+    },
     createPessoa() {
       this.creating = true;
-      this.layout = true;
     },
     updatePessoa(pessoa) {
       this.creating = false;
       this.pessoa = pessoa;
       this.isEdit = true;
-      this.layout = true;
     },
     novaPessoa() {
       return {
@@ -225,7 +162,7 @@ export default {
       };
     },
     update(pessoa) {
-      this.$router.push('cadastro/' + pessoa.id);
+      this.$router.push('cadastro/' + pessoa.documento1);
     },
     remove(pessoaId) {
       let datas = localStorage.getItem('datasApp');
@@ -266,13 +203,24 @@ export default {
       this.layout = false;
     }
   },
-  computed: {
-    contentSize() {
-      return this.moreContent ? 150 : 5;
-    }
-  },
+  computed: {},
   data() {
     return {
+      tipoPessoa: null,
+      options: [
+        {
+          label: 'Pessoa Física',
+          value: 'PF'
+        },
+        {
+          label: 'Pessoa Jurídica',
+          value: 'PJ'
+        }
+      ],
+      PF: false,
+      PJ: false,
+
+      medium: false,
       creating: false,
       isEdit: false,
       columns: [

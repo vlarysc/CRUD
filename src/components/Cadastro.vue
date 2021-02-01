@@ -5,20 +5,20 @@
         <div class="q-gutter-sm row items-center">
           <img
             size="46px"
-            src="https://nurap.org.br/wp-content/uploads/2018/08/Logo_Construindo-Futuro_OFICIAL_Esta%CC%81gio-1-300x138.png"
+            src="https://github.com/vlarysc/CRUD/blob/main/src/assets/Logo.png?raw=true"
           />
         </div>
         <hr class="sep" />
         <template>
           <div class="q-pa-md" style="margin-left: 355px; max-width: 300px">
             <div class="q-gutter-md">
-              <q-badge color="indigo-10" multi-line>
+              <q-badge color="yellow-9" text-color="black" multi-line>
                 Model: "{{ model }}"
               </q-badge>
 
               <q-select
                 filled
-                v-model="model"
+                v-model="pessoa.tipoPessoa"
                 :options="options"
                 label="Standard"
                 emit-value
@@ -36,6 +36,7 @@
               filled
               type="text"
               hint="Nome"
+              :rules="[val => (val && val.length > 0) || 'Campo Obrigatório']"
             />
 
             <q-input
@@ -58,6 +59,8 @@
             <q-input
               v-model="pessoa.telefone1"
               filled
+              mask="(##) # ####-####"
+              unmasked-value
               type="tel"
               hint="Telefone"
             />
@@ -82,9 +85,8 @@
           <q-btn
             v-if="!isEdit"
             @click.prevent="salvar(pessoa)"
-            color="indigo-10"
-            text-color="white"
-            unelevated
+            color="yellow-9"
+            text-color="black"
             icon="person_add"
             label="Adicionar"
           >
@@ -92,18 +94,16 @@
           <q-btn
             v-if="isEdit"
             @click.prevent="updat(pessoa)"
-            color="indigo-10"
-            text-color="white"
-            unelevated
+            color="yellow-9"
+            text-color="black"
             icon="system_update_alt"
             label="Atualizar"
           >
           </q-btn>
           <q-btn
             to="/"
-            color="indigo-10"
-            text-color="white"
-            unelevated
+            color="yellow-9"
+            text-color="black"
             icon="arrow_back"
             label="Voltar"
           >
@@ -115,6 +115,7 @@
 </template>
 
 <script>
+import { fasFilePrescription } from '@quasar/extras/fontawesome-v5';
 import Index from '../pages/Index';
 
 export default {
@@ -149,15 +150,18 @@ export default {
     };
   },
   mounted() {
-    if (this.$route.params.id == 'new') this.creating = true;
-    else {
-      const datas = JSON.parse(localStorage.getItem('datasApp'));
-      const pessoa = datas.find(
-        pessoaMap => pessoaMap.id == this.$route.params.id
-      );
+    const datas = JSON.parse(localStorage.getItem('datasApp'));
+    const pessoa = datas.find(
+      pessoaMap => pessoaMap.documento1 == this.$route.params.id
+    );
+    if (pessoa) {
       console.log(pessoa);
       this.pessoa = pessoa;
       this.isEdit = true;
+    } else {
+      this.creating = true;
+      this.pessoa.documento1 = this.$route.params.id;
+      this.isEdit = false;
     }
   },
   methods: {

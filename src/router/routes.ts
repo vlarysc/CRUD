@@ -11,7 +11,8 @@ const routes: RouteConfig[] = [
     component: () => import('layouts/MainLayout.vue'),
     children: [
       { path: '', component: () => import('pages/Index.vue') },
-      { path: '/cadastro/:id', component: () => import('../components/Cadastro.vue') }
+      { path: '/cadastro/:id', component: () => import('../components/Cadastro.vue') },
+      { path: '/inicio', component: () => import('../components/Search.vue') }
     ]
   },
 
