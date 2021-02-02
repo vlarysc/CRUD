@@ -50,57 +50,44 @@
               <template>
                 <div class="q-pa-md" style="max-width: 300px">
                   <div class="q-gutter-md">
-                    <q-badge color="yellow-9" text-color="black" multi-line>
-                      Tipo: "{{ pessoa.tipoPessoa }}"
-                    </q-badge>
-
                     <q-select
                       filled
-                      v-model="pessoa.tipoPessoa"
+                      v-model="tipoPessoa"
                       :options="options"
-                      label="Tipo"
+                      option-value="value"
+                      option-label="label"
                       emit-value
                       map-options
-                    >
-                    </q-select>
+                    />
                   </div>
                 </div>
               </template>
 
-              <q-div v-if="(PF = true)" v-model="PF" class="q-pt-none">
-                <q-input
-                  dense
-                  outlined
-                  v-model="pessoa.documento1"
-                  square
-                  :options="options"
-                  mask="###.###.###-##"
-                  unmasked-value
-                  placeholder="Pesquisar CPF"
-                  class="bg-white col"
-                  :rules="[
-                    val =>
-                      val.length > 0 || val.length < 14 || 'Campo Obrigatório'
-                  ]"
-                />
-              </q-div>
-              <q-div v-else-if="(PJ = false)" v-model="PJ" class="q-pt-none">
-                <q-input
-                  dense
-                  outlined
-                  v-model="pessoa.documento1"
-                  square
-                  :options="options"
-                  mask="##.###.###/####-##"
-                  unmasked-value
-                  placeholder="Pesquisar CPNJ"
-                  class="bg-white col"
-                  :rules="[
-                    val =>
-                      val.length > 0 || val.length < 18 || 'Campo Obrigatório'
-                  ]"
-                />
-              </q-div>
+              <q-input
+                v-if="tipoPessoa == 'PF'"
+                dense
+                outlined
+                v-model="pessoa.documento1"
+                square
+                mask="###.###.###-##"
+                unmasked-value
+                placeholder="Pesquisar CPF"
+                class="bg-white col"
+                :rules="ruleCpf"
+              />
+
+              <q-input
+                v-else
+                dense
+                outlined
+                v-model="pessoa.documento1"
+                square
+                mask="##.###.###/####-##"
+                unmasked-value
+                placeholder="Pesquisar CPNJ"
+                class="bg-white col"
+                :rules="ruleCpnj"
+              />
 
               <q-card-actions align="right" class="bg-white text-teal">
                 <q-btn
@@ -120,12 +107,14 @@
 </template>
 
 <script>
-import { LocalStorage } from 'quasar';
-import Cadastro from '../components/Cadastro.vue';
+import { validarCNPJ } from 'src/utils/validaCNPJ';
+import { validateCPF } from 'src/utils/validaCPF';
 
 export default {
   name: 'PageIndex',
   created() {
+    console.log('aqui');
+    console.log(validarCNPJ('14221252000155'));
     let datas = localStorage.getItem('datasApp');
     if (datas) {
       datas = JSON.parse(datas);
@@ -135,11 +124,7 @@ export default {
   methods: {
     search(pessoa) {
       this.$router.push('cadastro/' + this.pessoa.documento1);
-      if (this.pessoa.documento1.length == 11) {
-        this.pessoa.tipoPessoa = 'PF';
-      } else {
-        this.pessoa.tipoPessoa = 'PJ';
-      }
+
       console.log(pessoa);
     },
     createPessoa() {
@@ -206,7 +191,15 @@ export default {
   computed: {},
   data() {
     return {
-      tipoPessoa: null,
+      ruleCpnj: [
+        val => val.length > 0 || val.length < 18 || 'Campo Obrigatório',
+        val => validarCNPJ(val) || 'CNPJ Inválido!'
+      ],
+      ruleCpf: [
+        val => val.length > 0 || val.length < 14 || 'Campo Obrigatório',
+        val => validateCPF(val) || 'CPF Inválido!'
+      ],
+      tipoPessoa: 'PJ',
       options: [
         {
           label: 'Pessoa Física',
@@ -217,8 +210,6 @@ export default {
           value: 'PJ'
         }
       ],
-      PF: false,
-      PJ: false,
 
       medium: false,
       creating: false,
@@ -289,13 +280,7 @@ export default {
         documento1: '',
         telefone1: '',
         nascimento: ''
-      },
-
-      layout: false,
-
-      moreContent: true,
-      drawer: false,
-      drawerR: false
+      } //nao precisa desse objeto
     };
   }
 };

@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="q-pa-md">
-      <form>
+      <q-form>
         <div class="q-gutter-sm row items-center">
           <img
             size="46px"
@@ -45,6 +45,7 @@
               filled
               type="text"
               hint="Apelido"
+              :rules="[val => (val && val.length > 0) || 'Campo Obrigatório']"
             />
             <q-input
               v-model="pessoa.email"
@@ -52,6 +53,7 @@
               filled
               type="email"
               hint="E-mail"
+              :rules="[val => (val && val.length > 0) || 'Campo Obrigatório']"
             />
           </div>
 
@@ -63,6 +65,7 @@
               unmasked-value
               type="tel"
               hint="Telefone"
+              :rules="[val => (val && val.length > 0) || 'Campo Obrigatório']"
             />
 
             <q-input
@@ -70,6 +73,7 @@
               filled
               type="text"
               hint="Documento"
+              :rules="[val => (val && val.length > 0) || 'Campo Obrigatório']"
             />
 
             <q-input
@@ -77,6 +81,7 @@
               filled
               type="date"
               hint="Data de Nascimento"
+              :rules="[val => (val && val.length > 0) || 'Campo Obrigatório']"
             />
           </div>
         </div>
@@ -88,6 +93,7 @@
             color="yellow-9"
             text-color="black"
             icon="person_add"
+            aria-required="true"
             label="Adicionar"
           >
           </q-btn>
@@ -109,20 +115,29 @@
           >
           </q-btn>
         </div>
-      </form>
+      </q-form>
     </div>
   </div>
 </template>
 
 <script>
-import { fasFilePrescription } from '@quasar/extras/fontawesome-v5';
 import Index from '../pages/Index';
+import { validarCNPJ } from 'src/utils/validaCNPJ';
+import { validateCPF } from 'src/utils/validaCPF';
 
 export default {
   components: { Index },
   name: 'Cadastro',
   data() {
     return {
+      ruleCpnj: [
+        val => val.length > 0 || val.length < 18 || 'Campo Obrigatório',
+        val => validarCNPJ(val) || 'CNPJ Inválido!'
+      ],
+      ruleCpf: [
+        val => val.length > 0 || val.length < 14 || 'Campo Obrigatório',
+        val => validateCPF(val) || 'CPF Inválido!'
+      ],
       model: null,
       options: [
         {
@@ -161,7 +176,13 @@ export default {
     } else {
       this.creating = true;
       this.pessoa.documento1 = this.$route.params.id;
+
       this.isEdit = false;
+      if (this.pessoa.documento1.length == 11) {
+        this.pessoa.tipoPessoa = 'PF';
+      } else {
+        this.pessoa.tipoPessoa = 'PJ';
+      }
     }
   },
   methods: {
