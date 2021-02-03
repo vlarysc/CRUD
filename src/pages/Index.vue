@@ -28,16 +28,9 @@
       </template>
     </q-table>
     <div class="q-pa-md q-gutter-xl">
-      <q-btn
-        label="Adicionar"
-        to="/cadastro/new"
-        no-caps
-        color="yellow-9"
-        class="text-black"
-      />
-
       <div class="q-pa-md q-gutter-sm">
         <q-btn
+          style="margin-right: 40px;"
           label="Adicionar"
           color="yellow-9"
           class="text-black"
@@ -113,8 +106,6 @@ import { validateCPF } from 'src/utils/validaCPF';
 export default {
   name: 'PageIndex',
   created() {
-    console.log('aqui');
-    console.log(validarCNPJ('14221252000155'));
     let datas = localStorage.getItem('datasApp');
     if (datas) {
       datas = JSON.parse(datas);
@@ -199,7 +190,7 @@ export default {
         val => val.length > 0 || val.length < 14 || 'Campo Obrigatório',
         val => validateCPF(val) || 'CPF Inválido!'
       ],
-      tipoPessoa: 'PJ',
+      tipoPessoa: 'PF',
       options: [
         {
           label: 'Pessoa Física',

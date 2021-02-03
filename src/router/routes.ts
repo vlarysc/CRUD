@@ -12,7 +12,7 @@ const routes: RouteConfig[] = [
     children: [
       { path: '', component: () => import('pages/Index.vue') },
       { path: '/cadastro/:id', component: () => import('../components/Cadastro.vue') },
-      { path: '/inicio', component: () => import('../components/Search.vue') }
+      { path: '/cadastro/:id/enderecos', component: () => import('../components/Enderecos.vue') },
     ]
   },
 

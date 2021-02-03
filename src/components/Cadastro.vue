@@ -1,132 +1,186 @@
 <template>
-  <div>
-    <div class="q-pa-md">
-      <q-form>
-        <div class="q-gutter-sm row items-center">
-          <img
-            size="46px"
-            src="https://github.com/vlarysc/CRUD/blob/main/src/assets/Logo.png?raw=true"
+  <q-form ref="myForm" @submit="salvar">
+    <Tabs />
+    <div class="q-pa-xl">
+      <hr class="sep" />
+
+      <div class="row q-pa-xs q-ma-sm ">
+        <div class="col-sm-3">
+          <q-select
+            class="q-pa-xs"
+            filled
+            v-model="pessoa.tipoPessoa"
+            :options="options"
+            label="Tipo Pessoa"
+            emit-value
+            map-options
           />
         </div>
-        <hr class="sep" />
-        <template>
-          <div class="q-pa-md" style="margin-left: 355px; max-width: 300px">
-            <div class="q-gutter-md">
-              <q-badge color="yellow-9" text-color="black" multi-line>
-                Model: "{{ model }}"
-              </q-badge>
-
-              <q-select
-                filled
-                v-model="pessoa.tipoPessoa"
-                :options="options"
-                label="Standard"
-                emit-value
-                map-options
-              />
-            </div>
-          </div>
-        </template>
-
-        <div class="q-pa-md">
-          <div class="q-gutter-md row items-start">
-            <q-input
-              v-model="pessoa.name"
-              style="width: 400px;"
-              filled
-              type="text"
-              hint="Nome"
-              :rules="[val => (val && val.length > 0) || 'Campo Obrigatório']"
-            />
-
-            <q-input
-              v-model="pessoa.nickName"
-              style="width: 200px;"
-              filled
-              type="text"
-              hint="Apelido"
-              :rules="[val => (val && val.length > 0) || 'Campo Obrigatório']"
-            />
-            <q-input
-              v-model="pessoa.email"
-              style="width: 400px;"
-              filled
-              type="email"
-              hint="E-mail"
-              :rules="[val => (val && val.length > 0) || 'Campo Obrigatório']"
-            />
-          </div>
-
-          <div class="q-gutter-md row items-start">
-            <q-input
-              v-model="pessoa.telefone1"
-              filled
-              mask="(##) # ####-####"
-              unmasked-value
-              type="tel"
-              hint="Telefone"
-              :rules="[val => (val && val.length > 0) || 'Campo Obrigatório']"
-            />
-
-            <q-input
-              v-model="pessoa.documento1"
-              filled
-              type="text"
-              hint="Documento"
-              :rules="[val => (val && val.length > 0) || 'Campo Obrigatório']"
-            />
-
-            <q-input
-              v-model="pessoa.nascimento"
-              filled
-              type="date"
-              hint="Data de Nascimento"
-              :rules="[val => (val && val.length > 0) || 'Campo Obrigatório']"
-            />
-          </div>
+        <div class="col-sm-3">
+          <q-input
+            class="q-pa-xs"
+            :mask="
+              pessoa.tipoPessoa == 'PF'
+                ? '###.###.###-##'
+                : '##.###.###/####-##'
+            "
+            v-model="pessoa.documento1"
+            filled
+            type="text"
+            :label="pessoa.tipoPessoa == 'PF' ? 'CPF' : 'CNPJ'"
+            :rules="[val => (val && val.length > 0) || 'Campo Obrigatório']"
+          />
         </div>
-
-        <div class="q-pa-md q-gutter-sm">
-          <q-btn
-            v-if="!isEdit"
-            @click.prevent="salvar(pessoa)"
-            color="yellow-9"
-            text-color="black"
-            icon="person_add"
-            aria-required="true"
-            label="Adicionar"
-          >
-          </q-btn>
-          <q-btn
-            v-if="isEdit"
-            @click.prevent="updat(pessoa)"
-            color="yellow-9"
-            text-color="black"
-            icon="system_update_alt"
-            label="Atualizar"
-          >
-          </q-btn>
-          <q-btn
-            to="/"
-            color="yellow-9"
-            text-color="black"
-            icon="arrow_back"
-            label="Voltar"
-          >
-          </q-btn>
+        <div class="col-sm-3">
+          <q-input
+            class="q-pa-xs"
+            v-model="pessoa.documento2"
+            :mask="pessoa.tipoPessoa == 'PF' ? '#.###.###-#' : ''"
+            filled
+            type="text"
+            :label="pessoa.tipoPessoa == 'PF' ? 'RG' : 'Inscrição Estadual'"
+            :rules="[val => (val && val.length > 0) || 'Campo Obrigatório']"
+          />
         </div>
-      </q-form>
+        <div class="col-sm-3">
+          <q-input
+            class="q-pa-xs"
+            v-if="pessoa.tipoPessoa == 'PJ'"
+            v-model="pessoa.documento3"
+            filled
+            type="text"
+            label="Inscrição Municipal"
+            :rules="[val => (val && val.length > 0) || 'Campo Obrigatório']"
+          />
+        </div>
+      </div>
+
+      <div class="row q-pa-xs q-ma-sm">
+        <div class="col-8">
+          <q-input
+            class="q-pa-xs"
+            v-model="pessoa.name"
+            filled
+            type="text"
+            :label="pessoa.tipoPessoa == 'PF' ? 'Nome' : 'Razão Social'"
+            :rules="[val => (val && val.length > 0) || 'Campo Obrigatório']"
+          />
+        </div>
+        <div class="col-4">
+          <q-input
+            class="q-pa-xs"
+            v-model="pessoa.nascimento"
+            filled
+            type="text"
+            mask="##/##/####"
+            :label="
+              pessoa.tipoPessoa == 'PF'
+                ? 'Data de Nascimento'
+                : 'Data de Fundação'
+            "
+            :rules="[val => (val && val.length > 0) || 'Campo Obrigatório']"
+          />
+        </div>
+      </div>
+      <div class="row q-pa-xs q-ma-sm">
+        <div class="col-6 q-pa-xs">
+          <q-input
+            class="q-pa-xs"
+            v-model="pessoa.nickName"
+            filled
+            type="text"
+            :label="pessoa.tipoPessoa == 'PF' ? 'Apelido' : 'Nome Fantasia'"
+            :rules="[val => (val && val.length > 0) || 'Campo Obrigatório']"
+          />
+        </div>
+        <div class="col-6 q-pa-xs">
+          <q-input
+            class="q-pa-xs"
+            v-model="pessoa.email"
+            filled
+            type="email"
+            label="E-mail"
+            :rules="[val => (val && val.length > 0) || 'Campo Obrigatório']"
+          />
+        </div>
+      </div>
+      <div class="row q-pa-xs q-ma-sm">
+        <div class="col-4">
+          <q-input
+            class="q-pa-xs"
+            v-model="pessoa.telefone1"
+            filled
+            mask="(##) # ####-####"
+            type="tel"
+            label="Telefone"
+            :rules="[val => (val && val.length > 0) || 'Campo Obrigatório']"
+          />
+        </div>
+        <div class="col-4">
+          <q-input
+            class="q-pa-xs"
+            v-model="pessoa.telefone2"
+            filled
+            mask="(##) # ####-####"
+            type="tel"
+            label="Telefone (Opcional)"
+          />
+        </div>
+        <div class="col-4">
+          <q-input
+            class="q-pa-xs"
+            v-model="pessoa.telefone3"
+            filled
+            mask="(##) # ####-####"
+            type="tel"
+            label="Telefone (Opcional)"
+          />
+        </div>
+      </div>
     </div>
-  </div>
+
+    <q-btn
+      class="q-ml-sm"
+      v-if="!isEdit"
+      type="submit"
+      @click.prevent="salvar(pessoa)"
+      color="yellow-9"
+      text-color="black"
+      icon="person_add"
+      label="Continuar"
+    >
+    </q-btn>
+    <q-btn
+      class="q-ml-sm"
+      v-if="isEdit"
+      @click.prevent="updat(pessoa)"
+      color="yellow-9"
+      text-color="black"
+      type="submit"
+      icon="system_update_alt"
+      label="Atualizar"
+    >
+    </q-btn>
+    <q-btn
+      class="q-ml-sm"
+      to="/"
+      color="yellow-9"
+      text-color="black"
+      icon="arrow_back"
+      label="Voltar"
+    >
+    </q-btn>
+  </q-form>
 </template>
 
 <script>
+import Tabs from './Tabs';
 import Index from '../pages/Index';
 import { validarCNPJ } from 'src/utils/validaCNPJ';
 import { validateCPF } from 'src/utils/validaCPF';
 
 export default {
-  components: { Index },
+  components: { Index, Tabs },
   name: 'Cadastro',
   data() {
     return {
@@ -159,7 +213,11 @@ export default {
         nickName: '',
         email: '',
         documento1: '',
+        documento2: '',
+        documento3: '',
         telefone1: '',
+        telefone2: '',
+        telefone3: '',
         nascimento: ''
       }
     };
@@ -220,36 +278,33 @@ export default {
       this.pessoa = this.novaPessoa();
       this.$router.go(-1);
     },
+    voltar() {
+      this.$router.go(-1);
+    },
 
     salvar(pessoa) {
-      let datas = localStorage.getItem('datasApp');
+      this.$refs.myForm.validate().then(success => {
+        if (success) {
+          let datas = localStorage.getItem('datasApp');
 
-      if (datas) {
-        datas = JSON.parse(datas);
-      } else datas = [];
+          if (datas) {
+            datas = JSON.parse(datas);
+          } else datas = [];
 
-      pessoa.id = new Date().getTime();
-      datas.push(pessoa);
-      this.pessoas = datas;
+          pessoa.id = new Date().getTime();
+          datas.push(pessoa);
+          this.pessoas = datas;
 
-      localStorage.setItem('datasApp', JSON.stringify(datas));
-      this.pessoa = this.novaPessoa();
+          localStorage.setItem('datasApp', JSON.stringify(datas));
+          this.pessoa = this.novaPessoa();
 
-      this.$router.go(-1);
+          this.$router.go(-1);
+        } else {
+        }
+      });
     }
   }
 };
 </script>
 
-<style lang="stylus" scoped>
-*,
-:before,
-:after {
-  box-sizing: border-box;
-}
-
-img {
-margin-left: 350px;
-
-}
-</style>
+<style lang="sass" scoped></style>
