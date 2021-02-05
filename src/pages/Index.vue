@@ -111,7 +111,7 @@
 
 <script>
 import { validarCNPJ } from 'src/utils/validaCNPJ';
-import { validateCPF } from 'src/utils/validaCPF';
+
 import { validateBr } from 'js-brasil';
 import { mapState, mapActions } from 'Vuex';
 
@@ -125,7 +125,7 @@ export default {
     }
   },
   methods: {
-    ...mapActions('pessoas', ['addPessoas']),
+    ...mapActions('pessoas', ['addPessoas', 'addEnderecos']),
     search() {
       this.$router.push('cadastro/' + this.documento1);
     },
@@ -187,7 +187,8 @@ export default {
     }
   },
   computed: {
-    ...mapState('pessoas', ['pessoas'])
+    ...mapState('pessoas', ['pessoas']),
+    ...mapState('Enderecos', ['pessoa'])
   },
   data() {
     return {

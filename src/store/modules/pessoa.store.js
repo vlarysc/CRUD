@@ -5,8 +5,7 @@ export const namespaced = true;
 export const state = {
   pessoas: [],
   pessoa: {
-    ...,
-    enderecos:[]
+    enderecos: []
   }
 };
 
@@ -18,8 +17,9 @@ export const getters = {
 
 export const mutations = {
   setPessoas: (state, pessoas) => (state.pessoas = pessoas),
-  setAddPessoa: (state, pessoa) => state.pessoas.push(pessoa)
-  state.pessoas.enderecos.push()
+  setAddPessoa: (state, pessoa) => state.pessoas.push(pessoa),
+  setEnderecos: (state, enderecos) => (state.pessoas = enderecos),
+  setAddEnderecos: (state, enderecos) => state.pessoas.enderecos.push(enderecos)
 };
 //dispatch - executar uma acao
 //commit - executar uma mutation
@@ -31,5 +31,8 @@ export const actions = {
   },
   addPessoas: async ({ commit }, pessoas) => {
     commit('setPessoas', pessoas);
+  },
+  addEnderecos: async ({ commit }, enderecos) => {
+    commit('setAddEnderecos', enderecos);
   }
 };
