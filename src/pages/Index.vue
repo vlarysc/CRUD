@@ -7,6 +7,16 @@
       :columns="columns"
       row-key="id"
     >
+      <template v-slot:body-cell-documento1="props">
+        <q-td :props="props">
+          <div v-if="props.row.tipoPessoa == 'PF'">
+            {{ props.row.documento1 | vueBrazil('cpf') }}
+          </div>
+          <div v-else>
+            {{ props.row.documento1 | vueBrazil('cnpj') }}
+          </div>
+        </q-td>
+      </template>
       <template v-slot:body-cell-option="props">
         <q-td :props="props">
           <div class="q-pa-sm q-gutter-sm">
@@ -60,7 +70,7 @@
                 v-if="tipoPessoa == 'PF'"
                 dense
                 outlined
-                v-model="pessoa.documento1"
+                v-model="documento1"
                 square
                 mask="###.###.###-##"
                 unmasked-value
@@ -73,9 +83,9 @@
                 v-else
                 dense
                 outlined
-                v-model="pessoa.documento1"
+                v-model="documento1"
                 square
-                mask="##.###.###/####-##"
+                mask="##.###.###-####-##"
                 unmasked-value
                 placeholder="Pesquisar CPNJ"
                 class="bg-white col"
@@ -88,7 +98,7 @@
                   flat
                   label="Consultar"
                   v-close-popup
-                  @click.prevent="search(pessoa)"
+                  @click.prevent="search()"
                 />
               </q-card-actions>
             </q-card>
@@ -102,6 +112,8 @@
 <script>
 import { validarCNPJ } from 'src/utils/validaCNPJ';
 import { validateCPF } from 'src/utils/validaCPF';
+import { validateBr } from 'js-brasil';
+import { mapState, mapActions } from 'Vuex';
 
 export default {
   name: 'PageIndex',
@@ -109,23 +121,18 @@ export default {
     let datas = localStorage.getItem('datasApp');
     if (datas) {
       datas = JSON.parse(datas);
-      this.pessoas = datas;
-    } else this.pessoas = [];
+      this.addPessoas(datas);
+    }
   },
   methods: {
-    search(pessoa) {
-      this.$router.push('cadastro/' + this.pessoa.documento1);
-
-      console.log(pessoa);
+    ...mapActions('pessoas', ['addPessoas']),
+    search() {
+      this.$router.push('cadastro/' + this.documento1);
     },
     createPessoa() {
       this.creating = true;
     },
-    updatePessoa(pessoa) {
-      this.creating = false;
-      this.pessoa = pessoa;
-      this.isEdit = true;
-    },
+
     novaPessoa() {
       return {
         tipoPessoa: '',
@@ -179,7 +186,9 @@ export default {
       this.layout = false;
     }
   },
-  computed: {},
+  computed: {
+    ...mapState('pessoas', ['pessoas'])
+  },
   data() {
     return {
       ruleCpnj: [
@@ -188,7 +197,7 @@ export default {
       ],
       ruleCpf: [
         val => val.length > 0 || val.length < 14 || 'Campo Obrigatório',
-        val => validateCPF(val) || 'CPF Inválido!'
+        val => validateBr.cpf(val) || 'CPF Inválido!'
       ],
       tipoPessoa: 'PF',
       options: [
@@ -250,28 +259,8 @@ export default {
 
         { name: 'option', align: 'center', label: 'Opções', sortable: false }
       ],
-      pessoas: [
-        {
-          id: '',
-          tipoPessoa: '',
-          name: '',
-          nickName: '',
-          email: '',
-          documento1: '',
-          telefone1: '',
-          nascimento: ''
-        }
-      ],
-      pessoa: {
-        id: '',
-        tipoPessoa: '',
-        name: '',
-        nickName: '',
-        email: '',
-        documento1: '',
-        telefone1: '',
-        nascimento: ''
-      } //nao precisa desse objeto
+
+      documento1: ''
     };
   }
 };

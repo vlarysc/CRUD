@@ -1,20 +1,21 @@
 <template>
-  <q-form @submit="salvar(enderecos)" @reset="onReset" class="q-gutter-md">
+  <q-form @submit="salvar(enderecos)" class="q-gutter-md">
     <Tabs />
     <div class="q-pa-xl">
       <hr class="sep" />
       <div class="row q-pa-xs q-ma-sm ">
-        <div class="col-sm-4">
+        <div class="col-xs-12 col-md-2">
           <q-input
             class="q-pa-xs"
             filled
+            @blur="consultar"
             v-model="enderecos.cep"
             label="CEP"
             lazy-rules
             :rules="[val => (val && val.length > 0) || 'Please type something']"
           />
         </div>
-        <div class="col-sm-6">
+        <div class="col-xs-12 col-md-8">
           <q-input
             class="q-pa-xs"
             filled
@@ -24,11 +25,11 @@
             :rules="[val => (val && val.length > 0) || 'Please type something']"
           />
         </div>
-        <div class="col-sm-2">
+        <div class="col-xs-12 col-md-2">
           <q-input
             class="q-pa-xs"
             filled
-            v-model="numero"
+            v-model="enderecos.numero"
             label="N°"
             lazy-rules
             :rules="[val => (val && val.length > 0) || 'Please type something']"
@@ -36,7 +37,7 @@
         </div>
       </div>
       <div class="row q-pa-xs q-ma-sm">
-        <div class="col-sm-3">
+        <div class="col-xs-12 col-md-5">
           <q-input
             class="q-pa-xs"
             filled
@@ -46,7 +47,7 @@
             :rules="[val => (val && val.length > 0) || 'Please type something']"
           />
         </div>
-        <div class="col-sm-3">
+        <div class="col-md-4 col-xs-12 ">
           <q-input
             class="q-pa-xs"
             filled
@@ -56,7 +57,7 @@
             :rules="[val => (val && val.length > 0) || 'Please type something']"
           />
         </div>
-        <div class="col-sm-3">
+        <div class="col-xs-12 col-md-3">
           <q-select
             class="q-pa-xs"
             filled
@@ -73,7 +74,7 @@
         </div>
       </div>
       <div class="row q-pa-xs q-ma-sm">
-        <div class="col-sm-12">
+        <div class="col-xs-12">
           <q-input
             class="q-pa-xs"
             filled
@@ -87,6 +88,12 @@
     </div>
 
     <div>
+      <q-btn
+        label="Finalizar"
+        @click="consultar"
+        color="yellow-9"
+        text-color="black"
+      />
       <q-btn
         label="Finalizar"
         type="submit"
@@ -106,10 +113,12 @@
 </template>
 
 <script>
+import axios from 'axios';
 import Tabs from './Tabs';
 
 export default {
   components: { Tabs },
+  created() {},
   data() {
     return {
       model: null,
@@ -265,6 +274,22 @@ export default {
         } else {
         }
       });
+    },
+    async consultar() {
+      const result = await this.$axios
+        .get(`http://viacep.com.br/ws/${this.enderecos.cep}/json/`)
+        .then(res => res)
+        .catch(error => error);
+      if (result.status == 200 && !result.data.erro) {
+        const data = result.data;
+        this.enderecos.logradouro = data.logradouro;
+        this.enderecos.bairro = data.bairro;
+        this.enderecos.cidade = data.localidade;
+        this.enderecos.uf = data.uf;
+      } else {
+        this.$q.notify('Erro ao consultar o CEP');
+      }
+      console.log(result);
     }
   }
 };

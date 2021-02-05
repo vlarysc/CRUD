@@ -1,5 +1,6 @@
 import { store } from 'quasar/wrappers';
 import Vuex from 'vuex';
+import * as pessoas from './modules/pessoa.store';
 
 // import example from './module-example';
 // import { ExampleStateInterface } from './module-example/state';
@@ -21,6 +22,7 @@ export default store(function ({ Vue }) {
 
   const Store = new Vuex.Store<StateInterface>({
     modules: {
+      pessoas
       // example
     },
 

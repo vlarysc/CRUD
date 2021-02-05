@@ -111,11 +111,11 @@
             <div class="row items-center q-gutter-x-sm q-gutter-y-xs">
               <a
                 v-for="button in buttons1"
-                :key="button.text"
+                :key="button"
                 class="YL__drawer-footer-link"
                 href="javascript:void(0)"
               >
-                {{ button.text }}
+                {{ button }}
               </a>
             </div>
           </div>
@@ -123,11 +123,11 @@
             <div class="row items-center q-gutter-x-sm q-gutter-y-xs">
               <a
                 v-for="button in buttons2"
-                :key="button.text"
+                :key="button"
                 class="YL__drawer-footer-link"
                 href="javascript:void(0)"
               >
-                {{ button.text }}
+                {{ button }}
               </a>
             </div>
           </div>
@@ -142,13 +142,12 @@
 </template>
 
 <script>
-import { fabYoutube } from '@quasar/extras/fontawesome-v5';
 export default {
   name: 'MyLayout',
   data() {
     return {
-      buttons2: '',
-      buttons1: '',
+      buttons2: [],
+      buttons1: [],
       Youtube: '',
       leftDrawerOpen: false,
       search: '',
@@ -178,7 +177,7 @@ export default {
     };
   },
   created() {
-    this.fabYoutube = fabYoutube;
+    //this.fabYoutube = fabYoutube;
   }
 };
 </script>

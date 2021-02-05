@@ -13,9 +13,12 @@
     "@quasar/extras": "^1.0.0",
     "@vue/composition-api": "^0.6.4",
     "axios": "^0.18.1",
-    "core-js": "^3.6.5",
+    "core-js": "^3.8.3",
+    "js-brasil": "^2.3.14",
     "quasar": "^1.0.0",
-    "vue-i18n": "^8.0.0"
+    "vue-brazil": "^0.1.1",
+    "vue-i18n": "^8.0.0",
+    "vuex": "^3.6.2"
   },
   "devDependencies": {
     "@quasar/app": "^2.0.0",
